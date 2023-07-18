@@ -1,9 +1,8 @@
-from flask import render_template
-from flask import make_response
-from flask import url_for
-from jinja2 import Markup
-import re
 import json
+import re
+
+from flask import make_response, render_template, url_for
+from markupsafe import Markup
 
 JSGLUE_JS_PATH = '/jsglue.js'
 JSGLUE_NAMESPACE = 'Flask'
