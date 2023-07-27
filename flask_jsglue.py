@@ -51,7 +51,7 @@ class JSGlue(object):
         rules = get_routes(self.app)
         # .js files are not autoescaped in flask
         return render_template(
-            'jsglue/js_bridge.js',
+            'templates/jsglue/js_bridge.js',
             namespace=JSGLUE_NAMESPACE,
             rules=json.dumps(rules))
 
