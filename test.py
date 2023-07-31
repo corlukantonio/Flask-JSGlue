@@ -1,15 +1,22 @@
-from flask import Flask
-import unittest
+import os
 import subprocess
+import tempfile
+import unittest
+
+from flask import Flask
+
 from flask_jsglue import JSGlue
 
 
 def runUrlFor(src, url_for):
-    f = open('/tmp/test.js', 'w')
-    f.write("location={host:'localhost',protocol:'http:'};" +
-            bytes.decode(src) + ";console.log(Flask.url_for(%s))" % url_for)
-    f.close()
-    return bytes.decode(subprocess.check_output('node /tmp/test.js', stderr=subprocess.STDOUT, shell=True)).strip()
+    temp_dir = tempfile.gettempdir()
+    temp_file = os.path.join(temp_dir, 'test.js')
+
+    with open(temp_file, 'w') as f:
+        f.write("location={host:'localhost',protocol:'http:'};" +
+                bytes.decode(src) + ";console.log(Flask.url_for(%s))" % url_for)
+
+    return bytes.decode(subprocess.check_output('node ' + temp_file, stderr=subprocess.STDOUT, shell=True)).strip()
 
 
 class FlaskJSGlueTestCase(unittest.TestCase):
