@@ -13,9 +13,9 @@ before_install:
   - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then
     pip install flask<=0.12.5;
     elif [[ $TRAVIS_PYTHON_VERSION == 3.3 ]]; then
-    pip install flask<=1.1.4
+    pip install flask<=1.1.4;
     else
-    pip install flask
+    pip install flask;
     fi
 
 script:
