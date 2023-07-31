@@ -1,5 +1,4 @@
 language: python
-dist: xenial
 
 matrix:
   include:
@@ -7,7 +6,6 @@ matrix:
       env: TOXENV=py27
     - python: 3.3
       env: TOXENV=py33
-      dist: xenial
     - python: 3.4
       env: TOXENV=py34
     - python: 3.5
@@ -19,25 +17,22 @@ matrix:
     - python: pypy3
       env: TOXENV=pypy3
 
-before_install:
-  - if [[ $TRAVIS_PYTHON_VERSION == 3.3 ]]; then
-    wget https://www.python.org/ftp/python/3.3.7/Python-3.3.7.tar.xz;
-    tar -xJf Python-3.3.7.tar.xz;
-    cd Python-3.3.7;
-    ./configure --prefix=/usr/local;
-    make;
-    sudo make altinstall;
-    cd ..;
-    fi
+services:
+  - docker
 
 install:
   - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then
     pip install "flask<=1.0.4";
     elif [[ $TRAVIS_PYTHON_VERSION == 3.3 ]]; then
+    docker pull python:3.3;
     pip install "flask<=2.0.0";
     else
     pip install flask;
     fi
 
 script:
-  - python test.py
+  - if [[ $TRAVIS_PYTHON_VERSION == 3.3 ]]; then
+    docker run --rm -v $PWD:/app -w /app python:3.3 python test.py;
+    else
+    python test.py;
+    fi
