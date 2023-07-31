@@ -20,18 +20,26 @@ matrix:
 services:
   - docker
 
+before_install:
+  - if [[ $TRAVIS_PYTHON_VERSION == 3.3 ]]; then
+    sudo apt-get update;
+    sudo apt-get install -y libssl-dev openssl;
+    git clone https://github.com/pyenv/pyenv.git ~/.pyenv;
+    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc;
+    echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc;
+    echo 'eval "$(pyenv init --path)"' >> ~/.bashrc;
+    pyenv install 3.3.7;
+    pyenv global 3.3.7;
+    fi
+
 install:
   - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then
     pip install "flask<=1.0.4";
     elif [[ $TRAVIS_PYTHON_VERSION == 3.3 ]]; then
-    docker build -t my_custom_python33 .travis/;
+    pip install "flask<=1.1.4";
     else
     pip install flask;
     fi
 
 script:
-  - if [[ $TRAVIS_PYTHON_VERSION == 3.3 ]]; then
-    docker run --rm -v $PWD:/app -w /app my_custom_python33 python test.py;
-    else
-    python test.py;
-    fi
+  - python test.py;
