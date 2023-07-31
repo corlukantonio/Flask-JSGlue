@@ -7,7 +7,7 @@ Flask-JSGlue helps hook up your Flask application nicely with the front end.
 """
 
 try:
-    from setuptools import setup
+    from setuptools import find_packages, setup
 except ImportError:
     from distutils.core import setup
 
@@ -21,7 +21,10 @@ setup(
     description='Flask-JSGlue helps hook up your Flask application nicely with the front end.',
     long_description=__doc__,
     py_modules=['flask_jsglue'],
-    zip_safe=False,
+    packages=find_packages(),
+    package_data={
+        'flask_jsglue': ['templates/jsglue/js_bridge.js'],
+    },
     include_package_data=True,
     platforms='any',
     install_requires=[
