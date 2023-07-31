@@ -1,4 +1,5 @@
 language: python
+
 python:
   - "2.7"
   - "3.3"
@@ -7,6 +8,15 @@ python:
   - "3.6"
   - "pypy"
   - "pypy3"
+
 install:
-  - "pip install ."
-script: python test.py
+  - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then
+    pip install flask<=0.12.5;
+    elif [[ $TRAVIS_PYTHON_VERSION == 3.3 ]]; then
+    pip install flask<=1.1.4
+    else
+    pip install flask
+    fi
+
+script:
+  - python test.py
