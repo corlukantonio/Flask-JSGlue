@@ -22,10 +22,7 @@ matrix:
       env: TOXENV=pypy3
 
 install:
-  - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then
-    pip install "flask<=1.0.4";
-    else
-    pip install flask;
-    fi
+  - pip install tox
 
-script: python test.py
+script:
+  - tox
