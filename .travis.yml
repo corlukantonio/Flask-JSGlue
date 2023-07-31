@@ -9,7 +9,7 @@ python:
   - "pypy"
   - "pypy3"
 
-install:
+before_install:
   - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then
     pip install flask<=0.12.5;
     elif [[ $TRAVIS_PYTHON_VERSION == 3.3 ]]; then
